@@ -125,6 +125,47 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filters-button {
+	display: flex;
+	justify-content: center;
+	height: 37px;
+	gap: 10px;	
+}
+
+.button {
+	color: #1D6154;
+	border-radius: 60px;
+	border-style: solid;
+	border-color: #1D6154;
+	border-width: 1px;
+	font-size: 16px;
+	font-weight: 700;
+	font-family: 'Syne';
+	line-height: 19.2px;
+}
+
+.button:hover {
+	background-color: #1D6154;
+	color: white;
+}
+
+#all {
+	width: 100px;
+}
+
+#objects {
+	width: 100px;
+}
+
+#appartements {
+	width: 157px;
+}
+
+#hotels\&restaurants {
+	width: 198px;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
