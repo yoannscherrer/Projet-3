@@ -91,12 +91,14 @@ nav ul {
 	list-style-type: none;
 
 }
-nav li {
+nav a {
 	padding: 0 10px;
 	font-size: 1.2em;
+	color: black;
+	text-decoration: none;
 }
 
-li:hover {
+a:hover {
 	color: #B1663C;
 }
 #introduction {
