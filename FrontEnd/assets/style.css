@@ -48,6 +48,11 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
+
+.hidden {
+	display: none;
+}
+
 body {
 	max-width: 1140px;
 	margin:auto;

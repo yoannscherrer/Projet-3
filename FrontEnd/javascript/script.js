@@ -48,11 +48,6 @@ async function getButton(){
     
 }
 
-function changeButtonColor(id) {
-    newColor = "#1D6154";
-    document.getElementById(id).style.backgroundColor = newColor;
-    document.getElementById(id).style.color = "white";
-}
 
 getWorksFilters(0);
 getButton();
