@@ -48,6 +48,13 @@ async function getButton(){
     
 }
 
-
 getWorksFilters(0);
 getButton();
+
+function editor_mode() {
+    document.location.href="index.html";
+    let login_btn = document.getElementById("login_btn");
+    let logout_btn = document.getElementById("logout_btn");
+    login_btn.className = "hidden";
+    logout_btn.classList.remove("hidden");
+}
