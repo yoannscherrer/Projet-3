@@ -9,18 +9,21 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/78d3582465.js" crossorigin="anonymous"></script>
 	<script src="javascript/script.js" defer></script>
-	<script src="javascript/login.js" defer></script>
 </head>
 <body>
-<header>
+<div class="hidden" id="editor_header">
+	<button class="buttonEdition"><i class="fa-regular fa-pen-to-square" id="edition_logo"></i> Mode édition</button>
+</div>
+<header class="header">
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li><a href="#portfolio">projets</a></li>
 			<li><a href="#contact">contact</a></li>
 			<li id="login_btn"><a  href="login.html">login</a></li>
-			<li class="hidden" id="logout_btn"><a>logout</a></li>
+			<li class="hidden" id="logout_btn"><a href="">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -38,8 +41,11 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<div class="filters-button">
+		<div class="portfolio_title">
+			<h2>Mes Projets</h2>
+			<a href="#modal1" id="buttonModifier" style="display: none;"><i class="fa-regular fa-pen-to-square"></i> Modifier</a>
+		</div>
+		<div class="filters-button" id="filters">
 		</div>
 		<div class="gallery">
 		</div>
@@ -57,6 +63,16 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
+	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+		<div class="modal-wrapper">
+			<h1 id="titlemodal">Galerie photo</h1>
+			<button class="close-modal">
+				<i class="fa-solid fa-xmark fa-lg"></i>
+			</button>
+			
+		</div>
+	</aside>
+
 </main>
 
 <footer>

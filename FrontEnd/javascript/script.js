@@ -48,13 +48,67 @@ async function getButton(){
     
 }
 
+let modal = null;
+
+const openModal = function (e) {
+    e.preventDefault();
+    modal = document.querySelector(e.target.getAttribute("href"));
+    modal.style.display = null;
+    modal.removeAttribute("aria-hidden");
+    modal.setAttribute("aria-modal", "true");
+    modal.addEventListener("click", closeModal);
+    modal.querySelector(".close-modal").addEventListener("click", closeModal);
+    modal.querySelector(".modal-wrapper").addEventListener("click", stopPropagation);
+}
+
+const closeModal= function (e) {
+    if (modal === null) return
+    e.preventDefault();
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+    modal.removeAttribute("aria-modal");
+    modal.removeEventListener("click", closeModal)
+    modal.querySelector(".close-modal").removeEventListener("click", closeModal);
+    modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation);
+    modal = null;
+}
+
+const stopPropagation = function (e) {
+    e.stopPropagation();
+}
+
+function editor_mode() {
+    let login_btn = document.getElementById("login_btn");
+    let logout_btn = document.getElementById("logout_btn");
+    let editor_header = document.getElementById("editor_header");
+    let filters = document.getElementById("filters");
+    let modifierButton = document.getElementById("buttonModifier");
+    let header = document.querySelector(".header");
+    login_btn.className = "hidden";
+    logout_btn.classList.remove("hidden");
+    editor_header.classList.remove("hidden");
+    modifierButton.style.display = null;
+    filters.className = "hidden_filters";
+    header.classList.remove("header");
+    header.className = "header_editor";
+    modifierButton.addEventListener("click", openModal);
+}
+
+function logout() {
+    let logout_btn = document.getElementById("logout_btn");
+    logout_btn.addEventListener("click",() => {
+        localStorage.clear();
+        console.log(localStorage)
+    })
+}
+
 getWorksFilters(0);
 getButton();
 
-function editor_mode() {
-    document.location.href="index.html";
-    let login_btn = document.getElementById("login_btn");
-    let logout_btn = document.getElementById("logout_btn");
-    login_btn.className = "hidden";
-    logout_btn.classList.remove("hidden");
-}
+if (localStorage.getItem("token")!=null){
+    editor_mode();
+    logout();
+} 
+
+
+
