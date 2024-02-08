@@ -1,6 +1,7 @@
 const url = "http://localhost:5678/api/works";
 const url_category = "http://localhost:5678/api/categories"
 const gallery = document.querySelector(".gallery");
+const modalGallery = document.querySelector(".modal-gallery");
 
 async function getWorksFilters(id){
     const reponse = await fetch(url);
@@ -50,6 +51,25 @@ async function getButton(){
 
 let modal = null;
 
+async function openWorksModal() {
+    const reponse = await fetch(url);
+    const works = await reponse.json();
+    works.forEach(work => {
+            let figure = document.createElement("figure");
+            let image = document.createElement("img");
+            let icon = document.createElement("i");
+            image.src = work.imageUrl;
+            image.alt = work.title;
+            figure.classList.add("figure_modal");
+            image.classList.add("img_modal");
+            icon.classList.add("fa-solid","fa-trash-can","fa-sm",);
+            modalGallery.appendChild(figure);
+            figure.appendChild(image);
+            figure.appendChild(icon);
+        }
+    );
+}
+
 const openModal = function (e) {
     e.preventDefault();
     modal = document.querySelector(e.target.getAttribute("href"));
@@ -59,9 +79,10 @@ const openModal = function (e) {
     modal.addEventListener("click", closeModal);
     modal.querySelector(".close-modal").addEventListener("click", closeModal);
     modal.querySelector(".modal-wrapper").addEventListener("click", stopPropagation);
+    openWorksModal();
 }
 
-const closeModal= function (e) {
+const closeModal= async function (e) {
     if (modal === null) return
     e.preventDefault();
     modal.style.display = "none";
@@ -71,6 +92,8 @@ const closeModal= function (e) {
     modal.querySelector(".close-modal").removeEventListener("click", closeModal);
     modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation);
     modal = null;
+    modalGallery.innerHTML = "";
+    
 }
 
 const stopPropagation = function (e) {
