@@ -83,8 +83,9 @@
 				<div id="div_add_photos">
 					<i class="fa-regular fa-image fa-5x"></i>
 					<button id="button_add_photos">
-						<input type="file" name="photos" id="photos">
+						<input type="file" name="photos" id="photos" accept=".png, .jpg">
 						<p id="add_photos_text">+ Ajouter photo</p>
+						<p id="infos_photo">jpg, png : 4mo max</p>
 					</button>
 				</div>
 				<div class="formulaire">
@@ -94,7 +95,7 @@
 					<select name="categories" class="labelModal" id="selectCategories"></select>
 				</div>
 				<hr class="modal_lign">
-				<button class="modal_button disabled_button" disabled>Valider</button>
+				<button class="modal_button disabled_button" id="add_photos_button">Valider</button>
 			</section>
 		</div>
 	</aside>

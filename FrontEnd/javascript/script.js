@@ -3,6 +3,7 @@ const url_category = "http://localhost:5678/api/categories"
 const gallery = document.querySelector(".gallery");
 const modalGallery = document.querySelector(".modal-gallery");
 const token = localStorage.getItem("token");
+let formData = new FormData();
 
 async function getWorksFilters(id){
     const reponse = await fetch(url);
@@ -86,6 +87,7 @@ const openModal = function (e) {
     openWorksModal();
     categories_Modal();
     deleteWorks();
+    addWorks();
 }
 
 const closeModal= function (e) {
@@ -136,6 +138,81 @@ async function deleteWorks() {
     })
 }
 
+function addWorksToFormData() {
+    const selectedPic = document.getElementById("photos").files[0];
+    const selectedTitle = document.getElementById("titleAdd").value;
+    const selectedCategory = document.getElementById("selectCategories").value;
+    if (selectedPic.size <= 4000000) {
+        console.log("test")
+        formData.append("image", selectedPic);
+        formData.append("title", selectedTitle);
+        formData.append("category", selectedCategory);
+    }
+    else {
+        alert("Taille de l'image trop importante");
+    }
+}
+
+async function addWorks() {
+    const selectedPic = document.getElementById("photos").files[0];
+    const selectedTitle = document.getElementById("titleAdd").value;
+    const selectedCategory = document.getElementById("selectCategories").value;
+    let btn = document.getElementById("add_photos_button");
+    btn.addEventListener("click", function() {
+        addWorksToFormData();
+        for(let k of formData.values()){
+            console.log(k);
+        }
+        fetch(`http://localhost:5678/api/works`, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(function(response){
+            if (response.ok) {
+                console.log("C'est bon");
+            }
+            else {
+                console.error("Erreur lors de l'ajout d'un élément");
+            }
+        })
+        .catch(function(error) {
+            console.error("Erreur lors de l'ajout d'un élémnet", error);
+        })
+    }) 
+    /*if (selectedPic!=null && selectedTitle!=null && selectedCategory!=null) {
+        btn.classList.remove("disabled_button");
+        btn.disabled = false;
+        btn.addEventListener("click", function() {
+            addWorksToFormData();
+            fetch(`http://localhost:5678/api/works`, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            .then(function(response){
+                if (response.ok) {
+                    console.log("C'est bon");
+                }
+                else {
+                    console.error("Erreur lors de l'ajout d'un élément");
+                }
+            })
+            .catch(function(error) {
+                console.error("Erreur lors de l'ajout d'un élémnet", error);
+            })
+        }) 
+    }
+    else {
+        btn.className = "disabled_button modal_button";
+        btn.disabled = true;
+    }*/
+}
+
 function displayWorksInModal(figure) {
     figure.innerHTML = "";
 }
@@ -169,6 +246,7 @@ async function categories_Modal() {
     categories.forEach(button => {
         let option = document.createElement("option");
         option.innerText = button.name;
+        option.value = button.id;
         select.appendChild(option);
     })
     
@@ -203,8 +281,6 @@ getButton();
 
 if (token!=null){
     editor_mode();
-    logout();
+    logout(); 
 } 
-
-
 
