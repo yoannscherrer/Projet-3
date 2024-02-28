@@ -2,6 +2,7 @@ const url = "http://localhost:5678/api/works";
 const url_category = "http://localhost:5678/api/categories"
 const gallery = document.querySelector(".gallery");
 const modalGallery = document.querySelector(".modal-gallery");
+const token = localStorage.getItem("token");
 
 async function getWorksFilters(id){
     const reponse = await fetch(url);
@@ -56,6 +57,7 @@ async function openWorksModal() {
     const works = await reponse.json();
     works.forEach(work => {
             let figure = document.createElement("figure");
+            figure.dataset.id = work.id;
             let image = document.createElement("img");
             let icon = document.createElement("i");
             image.src = work.imageUrl;
@@ -79,10 +81,14 @@ const openModal = function (e) {
     modal.addEventListener("click", closeModal);
     modal.querySelector(".close-modal").addEventListener("click", closeModal);
     modal.querySelector(".modal-wrapper").addEventListener("click", stopPropagation);
+    modal.querySelector(".modal_button").addEventListener("click", addPhotosModal);
+    modal.querySelector(".back-modal").addEventListener("click", backModal);
     openWorksModal();
+    categories_Modal();
+    deleteWorks();
 }
 
-const closeModal= async function (e) {
+const closeModal= function (e) {
     if (modal === null) return
     e.preventDefault();
     modal.style.display = "none";
@@ -91,6 +97,8 @@ const closeModal= async function (e) {
     modal.removeEventListener("click", closeModal)
     modal.querySelector(".close-modal").removeEventListener("click", closeModal);
     modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation);
+    modal.querySelector(".modal_button").removeEventListener("click", addPhotosModal);
+    modal.querySelector(".back-modal").removeEventListener("click", backModal);
     modal = null;
     modalGallery.innerHTML = "";
     
@@ -98,6 +106,72 @@ const closeModal= async function (e) {
 
 const stopPropagation = function (e) {
     e.stopPropagation();
+}
+
+async function deleteWorks() {
+    modalGallery.addEventListener("click", function(event){
+        if (event.target.classList.contains("fa-trash-can")) {
+            const figure = event.target.closest("figure");
+            const workId = figure.dataset.id;
+            fetch(`http://localhost:5678/api/works/${workId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            .then(function(response){
+                if (response.ok) {
+                    modalGallery.innerHTML = "";
+                    openWorksModal();
+                    gallery.innerHTML = "";
+                    getWorksFilters(0);
+                } else {
+                    console.error("Erreur lors de la suppression de l'élément");
+                }
+            })
+            .catch(function(error) {
+                console.error("Erreur lors de la suppression de l'élément", error);
+            })
+        }
+    })
+}
+
+function displayWorksInModal(figure) {
+    figure.innerHTML = "";
+}
+
+function displayWorks(figure) {
+    figure.innerHTML = "";
+}
+
+function addPhotosModal() {
+    let remove_photos = document.getElementById("remove_photos_modal");
+    let add_photos = document.getElementById("add_photos_modal");
+    let button_back = document.querySelector(".back-modal");
+    remove_photos.classList.toggle("hidden");
+    add_photos.classList.remove("hidden"); 
+    button_back.classList.remove("hidden");
+}
+
+function backModal() {
+    let remove_photos = document.getElementById("remove_photos_modal");
+    let add_photos = document.getElementById("add_photos_modal");
+    let button_back = document.querySelector(".back-modal");
+    remove_photos.classList.remove("hidden");
+    add_photos.classList.toggle("hidden");
+    button_back.classList.toggle("hidden");
+}
+
+async function categories_Modal() {
+    const select = document.getElementById("selectCategories");
+    const reponse = await fetch(url_category);
+    const categories = await reponse.json();
+    categories.forEach(button => {
+        let option = document.createElement("option");
+        option.innerText = button.name;
+        select.appendChild(option);
+    })
+    
 }
 
 function editor_mode() {
@@ -121,14 +195,13 @@ function logout() {
     let logout_btn = document.getElementById("logout_btn");
     logout_btn.addEventListener("click",() => {
         localStorage.clear();
-        console.log(localStorage)
     })
 }
 
 getWorksFilters(0);
 getButton();
 
-if (localStorage.getItem("token")!=null){
+if (token!=null){
     editor_mode();
     logout();
 } 

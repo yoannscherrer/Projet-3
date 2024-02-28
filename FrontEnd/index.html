@@ -65,14 +65,37 @@
 	</section>
 	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
 		<div class="modal-wrapper">
-			<h1 id="titlemodal">Galerie photo</h1>
 			<button class="close-modal">
-				<i class="fa-solid fa-xmark fa-lg"></i>
+					<i class="fa-solid fa-xmark fa-lg"></i>
 			</button>
-			<div class="modal-gallery">	
-			</div>
-			<hr id="modal_lign">
-			<button id="modal_button"></buttonid>Ajouter une photo</button> 
+			<button class="back-modal hidden">
+				<i class="fa-solid fa-arrow-left fa-lg"></i>
+			</button>
+			<section id="remove_photos_modal">
+				<h1 class="titlemodal">Galerie photo</h1>
+				<div class="modal-gallery">	
+				</div>
+				<hr class="modal_lign">
+				<button class="modal_button"></buttonid>Ajouter une photo</button>
+			</section>
+			<section id="add_photos_modal" class="hidden">
+				<h1 class="titlemodal">Ajout photo</h1>
+				<div id="div_add_photos">
+					<i class="fa-regular fa-image fa-5x"></i>
+					<button id="button_add_photos">
+						<input type="file" name="photos" id="photos">
+						<p id="add_photos_text">+ Ajouter photo</p>
+					</button>
+				</div>
+				<div class="formulaire">
+					<label for="title" class="label">Titre</label>
+					<input type="text" class="labelModal" id="titleAdd" name="titleAdd">
+					<label for="categories" class="label">Catégorie</label>
+					<select name="categories" class="labelModal" id="selectCategories"></select>
+				</div>
+				<hr class="modal_lign">
+				<button class="modal_button disabled_button" disabled>Valider</button>
+			</section>
 		</div>
 	</aside>
 

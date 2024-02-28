@@ -71,7 +71,7 @@ table {
 	background-color: #FFFFFF;
 }
 
-#titlemodal {
+.titlemodal {
     color: black;
     font-size: 26px;
     font-weight: 400;
@@ -103,7 +103,7 @@ table {
 	height: auto;
 }
 
-#modal_lign {
+.modal_lign {
 	display: flex;
     justify-content: center;
     color: #B3B3B3;
@@ -111,10 +111,10 @@ table {
     height: 0px;
     border: 0.8px solid #B3B3B3;
     position: relative;
-    top: 140px;
+    top: 150px;
 }
 
-#modal_button {
+.modal_button {
     position: relative;
     display: flex;
     justify-content: center;
@@ -132,6 +132,10 @@ table {
 	font-weight: 700;
 }
 
+.disabled_button {
+	background-color: #A7A7A7;
+}
+
 .fa-trash-can {
     position: relative;
     width: 17px;
@@ -146,6 +150,113 @@ table {
     border-radius: 2px;
 }
 
+.fa-image {
+	position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 76px;
+    height: 76px;
+    color: #CBD6DC;
+    background-color: #E8F1F6;
+    top: -15px;
+}
+
+#remove_photos_modal {
+	margin: 0;
+	margin-top: -30px;
+}
+
+#add_photos_modal {
+	margin: 0;
+	margin-top: -55px;
+}
+
+#div_add_photos {
+	position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #E8F1F6;
+    width: 420px;
+    height: 169px;
+    top: 100px;
+    left: 50%;
+    margin-left: -210px;
+    border-radius: 3px;
+}
+
+#button_add_photos {
+	position: relative;
+    width: 173px;
+    height: 36px;
+    z-index: 0;
+    background-color: #CBD6DC;
+    border: none;
+    top: -5px;
+    border-radius: 50px;
+}
+
+#photos {
+	position: relative;
+    z-index: 1;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#add_photos_text {
+	position: relative;
+    z-index: 0;
+    background-color: #CBD6DC;
+    color: #306685;
+    top: -25px;
+    font-family: 'Work Sans';
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.formulaire {
+	position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    width: 420px;
+    top: 120px;
+    left: 105px;
+    margin-top: 20px;
+}
+
+.label {
+	font-family: 'Work Sans';
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.labelModal {
+	border: none;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+    height: 51px;
+    font-family: 'Work Sans';
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 15px;
+}
+
+.back-modal {
+	height: 24px;
+	width: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	left: 26px;
+	border: none;
+	background-color: #FFFFFF;
+}
+
 .close-modal {
 	height: 24px;
 	width: 24px;
@@ -154,6 +265,7 @@ table {
 	justify-content: center;
 	position: relative;
 	left: 576px;
+	top: 25px;
 	border: none;
 	background-color: #FFFFFF;
 }
