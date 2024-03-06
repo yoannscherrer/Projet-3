@@ -1,6 +1,9 @@
 const url = "http://localhost:5678/api/works";
 const url_category = "http://localhost:5678/api/categories"
 const gallery = document.querySelector(".gallery");
+const modalGallery = document.querySelector(".modal-gallery");
+const token = localStorage.getItem("token");
+let formData = new FormData();
 
 async function getWorksFilters(id){
     const reponse = await fetch(url);
@@ -48,13 +51,236 @@ async function getButton(){
     
 }
 
+let modal = null;
+
+async function openWorksModal() {
+    const reponse = await fetch(url);
+    const works = await reponse.json();
+    works.forEach(work => {
+            let figure = document.createElement("figure");
+            figure.dataset.id = work.id;
+            let image = document.createElement("img");
+            let icon = document.createElement("i");
+            image.src = work.imageUrl;
+            image.alt = work.title;
+            figure.classList.add("figure_modal");
+            image.classList.add("img_modal");
+            icon.classList.add("fa-solid","fa-trash-can","fa-sm",);
+            modalGallery.appendChild(figure);
+            figure.appendChild(image);
+            figure.appendChild(icon);
+        }
+    );
+}
+
+const openModal = function (e) {
+    e.preventDefault();
+    modal = document.querySelector(e.target.getAttribute("href"));
+    modal.style.display = null;
+    modal.removeAttribute("aria-hidden");
+    modal.setAttribute("aria-modal", "true");
+    modal.addEventListener("click", closeModal);
+    modal.querySelector(".close-modal").addEventListener("click", closeModal);
+    modal.querySelector(".modal-wrapper").addEventListener("click", stopPropagation);
+    modal.querySelector(".modal_button").addEventListener("click", addPhotosModal);
+    modal.querySelector(".back-modal").addEventListener("click", backModal);
+    openWorksModal();
+    categories_Modal();
+    deleteWorks();
+    addWorks();
+}
+
+const closeModal= function (e) {
+    if (modal === null) return
+    e.preventDefault();
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+    modal.removeAttribute("aria-modal");
+    modal.removeEventListener("click", closeModal)
+    modal.querySelector(".close-modal").removeEventListener("click", closeModal);
+    modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation);
+    modal.querySelector(".modal_button").removeEventListener("click", addPhotosModal);
+    modal.querySelector(".back-modal").removeEventListener("click", backModal);
+    modal = null;
+    modalGallery.innerHTML = "";
+    
+}
+
+const stopPropagation = function (e) {
+    e.stopPropagation();
+}
+
+async function deleteWorks() {
+    modalGallery.addEventListener("click", function(event){
+        if (event.target.classList.contains("fa-trash-can")) {
+            const figure = event.target.closest("figure");
+            const workId = figure.dataset.id;
+            fetch(`http://localhost:5678/api/works/${workId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            .then(function(response){
+                if (response.ok) {
+                    modalGallery.innerHTML = "";
+                    openWorksModal();
+                    gallery.innerHTML = "";
+                    getWorksFilters(0);
+                } else {
+                    console.error("Erreur lors de la suppression de l'élément");
+                }
+            })
+            .catch(function(error) {
+                console.error("Erreur lors de la suppression de l'élément", error);
+            })
+        }
+    })
+}
+
+function addWorksToFormData() {
+    const selectedPic = document.getElementById("photos").files[0];
+    const selectedTitle = document.getElementById("titleAdd").value;
+    const selectedCategory = document.getElementById("selectCategories").value;
+    if (selectedPic.size <= 4000000) {
+        console.log("test")
+        formData.append("image", selectedPic);
+        formData.append("title", selectedTitle);
+        formData.append("category", selectedCategory);
+    }
+    else {
+        alert("Taille de l'image trop importante");
+    }
+}
+
+async function addWorks() {
+    const selectedPic = document.getElementById("photos").files[0];
+    const selectedTitle = document.getElementById("titleAdd").value;
+    const selectedCategory = document.getElementById("selectCategories").value;
+    let btn = document.getElementById("add_photos_button");
+    btn.addEventListener("click", function() {
+        addWorksToFormData();
+        for(let k of formData.values()){
+            console.log(k);
+        }
+        fetch(`http://localhost:5678/api/works`, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(function(response){
+            if (response.ok) {
+                console.log("C'est bon");
+            }
+            else {
+                console.error("Erreur lors de l'ajout d'un élément");
+            }
+        })
+        .catch(function(error) {
+            console.error("Erreur lors de l'ajout d'un élémnet", error);
+        })
+    }) 
+    /*if (selectedPic!=null && selectedTitle!=null && selectedCategory!=null) {
+        btn.classList.remove("disabled_button");
+        btn.disabled = false;
+        btn.addEventListener("click", function() {
+            addWorksToFormData();
+            fetch(`http://localhost:5678/api/works`, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            .then(function(response){
+                if (response.ok) {
+                    console.log("C'est bon");
+                }
+                else {
+                    console.error("Erreur lors de l'ajout d'un élément");
+                }
+            })
+            .catch(function(error) {
+                console.error("Erreur lors de l'ajout d'un élémnet", error);
+            })
+        }) 
+    }
+    else {
+        btn.className = "disabled_button modal_button";
+        btn.disabled = true;
+    }*/
+}
+
+function displayWorksInModal(figure) {
+    figure.innerHTML = "";
+}
+
+function displayWorks(figure) {
+    figure.innerHTML = "";
+}
+
+function addPhotosModal() {
+    let remove_photos = document.getElementById("remove_photos_modal");
+    let add_photos = document.getElementById("add_photos_modal");
+    let button_back = document.querySelector(".back-modal");
+    remove_photos.classList.toggle("hidden");
+    add_photos.classList.remove("hidden"); 
+    button_back.classList.remove("hidden");
+}
+
+function backModal() {
+    let remove_photos = document.getElementById("remove_photos_modal");
+    let add_photos = document.getElementById("add_photos_modal");
+    let button_back = document.querySelector(".back-modal");
+    remove_photos.classList.remove("hidden");
+    add_photos.classList.toggle("hidden");
+    button_back.classList.toggle("hidden");
+}
+
+async function categories_Modal() {
+    const select = document.getElementById("selectCategories");
+    const reponse = await fetch(url_category);
+    const categories = await reponse.json();
+    categories.forEach(button => {
+        let option = document.createElement("option");
+        option.innerText = button.name;
+        option.value = button.id;
+        select.appendChild(option);
+    })
+    
+}
+
+function editor_mode() {
+    let login_btn = document.getElementById("login_btn");
+    let logout_btn = document.getElementById("logout_btn");
+    let editor_header = document.getElementById("editor_header");
+    let filters = document.getElementById("filters");
+    let modifierButton = document.getElementById("buttonModifier");
+    let header = document.querySelector(".header");
+    login_btn.className = "hidden";
+    logout_btn.classList.remove("hidden");
+    editor_header.classList.remove("hidden");
+    modifierButton.style.display = null;
+    filters.className = "hidden_filters";
+    header.classList.remove("header");
+    header.className = "header_editor";
+    modifierButton.addEventListener("click", openModal);
+}
+
+function logout() {
+    let logout_btn = document.getElementById("logout_btn");
+    logout_btn.addEventListener("click",() => {
+        localStorage.clear();
+    })
+}
+
 getWorksFilters(0);
 getButton();
 
-function editor_mode() {
-    document.location.href="index.html";
-    let login_btn = document.getElementById("login_btn");
-    let logout_btn = document.getElementById("logout_btn");
-    login_btn.className = "hidden";
-    logout_btn.classList.remove("hidden");
-}
+if (token!=null){
+    editor_mode();
+    logout(); 
+} 
+

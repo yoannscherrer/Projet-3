@@ -9,18 +9,21 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/78d3582465.js" crossorigin="anonymous"></script>
 	<script src="javascript/script.js" defer></script>
-	<script src="javascript/login.js" defer></script>
 </head>
 <body>
-<header>
+<div class="hidden" id="editor_header">
+	<button class="buttonEdition"><i class="fa-regular fa-pen-to-square" id="edition_logo"></i> Mode édition</button>
+</div>
+<header class="header">
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li><a href="#portfolio">projets</a></li>
 			<li><a href="#contact">contact</a></li>
 			<li id="login_btn"><a  href="login.html">login</a></li>
-			<li class="hidden" id="logout_btn"><a>logout</a></li>
+			<li class="hidden" id="logout_btn"><a href="">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -38,8 +41,11 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<div class="filters-button">
+		<div class="portfolio_title">
+			<h2>Mes Projets</h2>
+			<a href="#modal1" id="buttonModifier" style="display: none;"><i class="fa-regular fa-pen-to-square"></i> Modifier</a>
+		</div>
+		<div class="filters-button" id="filters">
 		</div>
 		<div class="gallery">
 		</div>
@@ -57,6 +63,43 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
+	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+		<div class="modal-wrapper">
+			<button class="close-modal">
+					<i class="fa-solid fa-xmark fa-lg"></i>
+			</button>
+			<button class="back-modal hidden">
+				<i class="fa-solid fa-arrow-left fa-lg"></i>
+			</button>
+			<section id="remove_photos_modal">
+				<h1 class="titlemodal">Galerie photo</h1>
+				<div class="modal-gallery">	
+				</div>
+				<hr class="modal_lign">
+				<button class="modal_button"></buttonid>Ajouter une photo</button>
+			</section>
+			<section id="add_photos_modal" class="hidden">
+				<h1 class="titlemodal">Ajout photo</h1>
+				<div id="div_add_photos">
+					<i class="fa-regular fa-image fa-5x"></i>
+					<button id="button_add_photos">
+						<input type="file" name="photos" id="photos" accept=".png, .jpg">
+						<p id="add_photos_text">+ Ajouter photo</p>
+						<p id="infos_photo">jpg, png : 4mo max</p>
+					</button>
+				</div>
+				<div class="formulaire">
+					<label for="title" class="label">Titre</label>
+					<input type="text" class="labelModal" id="titleAdd" name="titleAdd">
+					<label for="categories" class="label">Catégorie</label>
+					<select name="categories" class="labelModal" id="selectCategories"></select>
+				</div>
+				<hr class="modal_lign">
+				<button class="modal_button disabled_button" id="add_photos_button">Valider</button>
+			</section>
+		</div>
+	</aside>
+
 </main>
 
 <footer>

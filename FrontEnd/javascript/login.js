@@ -25,16 +25,12 @@ async function getAPIresponse(email, password) {
     })
     .then((response)=>response.json())
     .then((data)=>{
-        localStorage.clear();
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userId", data.userId);
-        console.log(data);
-        console.log(localStorage);
         if (localStorage.getItem("token")==="undefined"){
             alert("Erreur dans l’identifiant ou le mot de passe")
         } 
         else {
-            editor_mode(); 
+            document.location.href="index.html"; 
         }   
     })
 }
