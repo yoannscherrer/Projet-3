@@ -29,7 +29,7 @@
 	</nav>
 </header>
 <main>
-	<section id="introduction">
+	<div id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
 		</figure>
@@ -39,7 +39,7 @@
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
-	</section>
+	</div>
 	<section id="portfolio">
 		<div class="portfolio_title">
 			<h2>Mes Projets</h2>
@@ -63,7 +63,7 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
-	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+	<aside id="modal1" class="modal" aria-hidden="true" aria-labelledby="remove_photos_modal" style="display: none;">
 		<div class="modal-wrapper">
 			<button class="close-modal">
 					<i class="fa-solid fa-xmark fa-lg"></i>
@@ -72,26 +72,26 @@
 				<i class="fa-solid fa-arrow-left fa-lg"></i>
 			</button>
 			<section id="remove_photos_modal">
-				<h1 class="titlemodal">Galerie photo</h1>
+				<h2 class="titlemodal">Galerie photo</h2>
 				<div class="modal-gallery">	
 				</div>
 				<hr class="modal_lign">
-				<button class="modal_button"></buttonid>Ajouter une photo</button>
+				<button class="modal_button">Ajouter une photo</button>
 			</section>
 			<section id="add_photos_modal" class="hidden">
-				<h1 class="titlemodal">Ajout photo</h1>
+				<h2 class="titlemodal">Ajout photo</h2>
 				<div id="div_add_photos">
 					<i class="fa-regular fa-image fa-5x"></i>
+					<input type="file" name="photos" id="photos" accept=".png, .jpg">
 					<button id="button_add_photos">
-						<input type="file" name="photos" id="photos" accept=".png, .jpg">
-						<p id="add_photos_text">+ Ajouter photo</p>
-						<p id="infos_photo">jpg, png : 4mo max</p>
+						+ Ajouter photo	
 					</button>
+					<p id="infos_photo">jpg, png : 4mo max</p>
 				</div>
 				<div class="formulaire">
-					<label for="title" class="label">Titre</label>
+					<label for="titleAdd" class="label">Titre</label>
 					<input type="text" class="labelModal" id="titleAdd" name="titleAdd">
-					<label for="categories" class="label">Catégorie</label>
+					<label for="selectCategories" class="label">Catégorie</label>
 					<select name="categories" class="labelModal" id="selectCategories"></select>
 				</div>
 				<hr class="modal_lign">
