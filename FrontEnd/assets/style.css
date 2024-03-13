@@ -190,6 +190,14 @@ table {
     border-radius: 3px;
 }
 
+#previewImg {
+	object-fit: cover;
+    width: 129px;
+    height: 169px;
+    z-index: 2;
+    position: fixed;
+}
+
 #button_add_photos {
 	position: relative;
     width: 173px;

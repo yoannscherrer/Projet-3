@@ -143,7 +143,6 @@ function addWorksToFormData() {
     const selectedTitle = document.getElementById("titleAdd").value;
     const selectedCategory = document.getElementById("selectCategories").value;
     if (selectedPic.size <= 4000000) {
-        console.log("test")
         formData.append("image", selectedPic);
         formData.append("title", selectedTitle);
         formData.append("category", selectedCategory);
@@ -154,15 +153,32 @@ function addWorksToFormData() {
 }
 
 async function addWorks() {
-    const selectedPic = document.getElementById("photos").files[0];
-    const selectedTitle = document.getElementById("titleAdd").value;
-    const selectedCategory = document.getElementById("selectCategories").value;
+    let title = document.getElementById("titleAdd");
+    let inputImg = document.getElementById("photos");
     let btn = document.getElementById("add_photos_button");
+    inputImg.addEventListener("input", function() {
+        previewImage();
+        if (document.getElementById("photos").files[0]!=null && document.getElementById("titleAdd").value!="") {
+            btn.classList.remove("disabled_button");
+            btn.disabled = false;
+        }
+        else {
+            btn.className = "disabled_button modal_button";
+            btn.disabled = true;
+        }
+    })
+    title.addEventListener("input", function() {
+        if (document.getElementById("photos").files[0]!=null && document.getElementById("titleAdd").value!="") {
+            btn.classList.remove("disabled_button");
+            btn.disabled = false;
+        }
+        else {
+            btn.className = "disabled_button modal_button";
+            btn.disabled = true;
+        }
+    })
     btn.addEventListener("click", function() {
         addWorksToFormData();
-        for(let k of formData.values()){
-            console.log(k);
-        }
         fetch(`http://localhost:5678/api/works`, {
             method: "POST",
             body: formData,
@@ -172,53 +188,49 @@ async function addWorks() {
         })
         .then(function(response){
             if (response.ok) {
-                console.log("C'est bon");
+                modalGallery.innerHTML = "";
+                openWorksModal();
+                gallery.innerHTML = "";
+                getWorksFilters(0);
+                let image = document.getElementById("previewImg");
+                image.parentNode.removeChild(image);
+                document.getElementById("button_add_photos").classList.remove("hidden");
+                document.getElementById("titleAdd").value = "";
+                btn.className = "disabled_button modal_button";
+                btn.disabled = true;
+                inputImg.value = "";
+                formData.delete("image");
+                formData.delete("title");
+                formData.delete("category");
             }
             else {
                 console.error("Erreur lors de l'ajout d'un élément");
             }
         })
         .catch(function(error) {
-            console.error("Erreur lors de l'ajout d'un élémnet", error);
+            console.error("Erreur lors de l'ajout d'un élément", error);
         })
-    }) 
-    /*if (selectedPic!=null && selectedTitle!=null && selectedCategory!=null) {
-        btn.classList.remove("disabled_button");
-        btn.disabled = false;
-        btn.addEventListener("click", function() {
-            addWorksToFormData();
-            fetch(`http://localhost:5678/api/works`, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-            .then(function(response){
-                if (response.ok) {
-                    console.log("C'est bon");
-                }
-                else {
-                    console.error("Erreur lors de l'ajout d'un élément");
-                }
-            })
-            .catch(function(error) {
-                console.error("Erreur lors de l'ajout d'un élémnet", error);
-            })
-        }) 
-    }
-    else {
-        btn.className = "disabled_button modal_button";
-        btn.disabled = true;
-    }*/
+    })
 }
 
-function displayWorksInModal(figure) {
-    figure.innerHTML = "";
-}
-
-function displayWorks(figure) {
-    figure.innerHTML = "";
+function previewImage() {
+    let img = document.getElementById("div_add_photos");
+    let image = document.createElement("img");
+    let btn_add = document.getElementById("button_add_photos");
+    const selectedPic = document.getElementById("photos").files[0];
+    const reader = new FileReader();
+    image.id = "previewImg";
+    img.appendChild(image);
+    reader.addEventListener(
+        "load", () => {
+          image.src = reader.result;
+        },
+        false,
+      );
+    if (selectedPic) {
+        reader.readAsDataURL(selectedPic);
+        btn_add.className = "hidden";
+      }
 }
 
 function addPhotosModal() {
@@ -237,6 +249,17 @@ function backModal() {
     remove_photos.classList.remove("hidden");
     add_photos.classList.toggle("hidden");
     button_back.classList.toggle("hidden");
+    let inputImg = document.getElementById("photos");
+    let btn = document.getElementById("add_photos_button");
+    let image = document.getElementById("previewImg");
+    if (image != null) {
+        image.parentNode.removeChild(image);
+    }
+    document.getElementById("button_add_photos").classList.remove("hidden");
+    document.getElementById("titleAdd").value = "";
+    btn.className = "disabled_button modal_button";
+    btn.disabled = true;
+    inputImg.value = "";
 }
 
 async function categories_Modal() {
