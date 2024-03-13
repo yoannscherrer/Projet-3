@@ -249,6 +249,17 @@ function backModal() {
     remove_photos.classList.remove("hidden");
     add_photos.classList.toggle("hidden");
     button_back.classList.toggle("hidden");
+    let inputImg = document.getElementById("photos");
+    let btn = document.getElementById("add_photos_button");
+    let image = document.getElementById("previewImg");
+    if (image != null) {
+        image.parentNode.removeChild(image);
+    }
+    document.getElementById("button_add_photos").classList.remove("hidden");
+    document.getElementById("titleAdd").value = "";
+    btn.className = "disabled_button modal_button";
+    btn.disabled = true;
+    inputImg.value = "";
 }
 
 async function categories_Modal() {
