@@ -17,7 +17,6 @@ function getEmailAndPassword() {
 async function getAPIresponse(email, password) {
     let login = {email, password};
     let login_json = JSON.stringify(login);
-    console.log(login_json);
     fetch(url_login, {
         method: "POST",
         body: login_json,
