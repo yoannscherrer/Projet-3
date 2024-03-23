@@ -371,13 +371,18 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
+	gap: 30px;
 }
+
 nav a {
 	padding: 0 10px;
 	font-size: 1.2em;
 	color: black;
 	text-decoration: none;
+}
+
+#logo_instagram {
+	width: 22px;
 }
 
 a:hover {
