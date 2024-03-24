@@ -85,9 +85,6 @@ const openModal = function (e) {
     modal.querySelector(".modal_button").addEventListener("click", addPhotosModal);
     modal.querySelector(".back-modal").addEventListener("click", backModal);
     openWorksModal();
-    categories_Modal();
-    deleteWorks();
-    addWorks();
 }
 
 const closeModal= function (e) {
@@ -301,6 +298,9 @@ function logout() {
 
 getWorksFilters(0);
 getButton();
+categories_Modal();
+deleteWorks();
+addWorks();
 
 if (token!=null){
     editor_mode();
