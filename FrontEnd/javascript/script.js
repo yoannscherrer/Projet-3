@@ -85,11 +85,13 @@ const openModal = function (e) {
     modal.querySelector(".modal_button").addEventListener("click", addPhotosModal);
     modal.querySelector(".back-modal").addEventListener("click", backModal);
     openWorksModal();
+    categories_Modal();
 }
 
 const closeModal= function (e) {
     if (modal === null) return
     e.preventDefault();
+    backModal();
     modal.style.display = "none";
     modal.setAttribute("aria-hidden", "true");
     modal.removeAttribute("aria-modal");
@@ -100,7 +102,7 @@ const closeModal= function (e) {
     modal.querySelector(".back-modal").removeEventListener("click", backModal);
     modal = null;
     modalGallery.innerHTML = "";
-    
+    document.getElementById("selectCategories").innerHTML = "";
 }
 
 const stopPropagation = function (e) {
@@ -298,7 +300,6 @@ function logout() {
 
 getWorksFilters(0);
 getButton();
-categories_Modal();
 deleteWorks();
 addWorks();
 
